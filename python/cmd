@@ -1,3 +1,147 @@
 docker run -it --name python-app <>
 docker stop <>
 docker start -a -i <>
+docker image prune - Unsed images are removed
+docker run --rm == > remove the container once it's stopped 
+docker image inspect <> == > Details of the image 
+docker cp <on local> <container_name:/test>   == > copy from local to inside container
+
+Docker Volume : Data preservation methodology 
+================================
+ docker volume ls
+ docker volume create volume vol1
+ docker volume inspect <volume name> -- > by default storage is /var/lib/docker 
+ docker run -it --name <any name> -v <volume on container>:<directory on host> <container id> == > docker run –it --name container1 –v vol1:/data ubuntu 
+ this volume can be attached to multiple containers.
+ docker volume rm vol1
+
+Bind Mount : Another way to share container data with host machine with location choice  
+===========================================================
+ cd tmp/logs -- > create a file.txt -- > 
+ docker run –it –name <container name> -v /tmp/logs:/data:Z <image name>
+ /tmp/logs in host machine is mapped to /data on container . 
+
+Create a dockerfile :
+=============
+FROM ubuntu
+Maintainer “Vikas”
+RUN apt-get update
+RUN apt-get install vim –y
+CMD /bin/echo “Hello from Docker” 
+
+ docker build –t <image name required> .
+ docker images to check the image created
+
+
+Docker Network:
+============
+ docker network ls -- > see the default networks 
+ 1. bridge 2. host 3. null
+ docker network inspect bridge  -- > check the containers section 
+ 
+Different containers under same network can talk with each other via ip address
+ apt-get update  && apt-get install –y iputils-ping 
+ take one of the the container ip from inspect command and use it on the other one to see connectivity .
+ 
+Create a custom bridge :
+===============
+ docker network create --driver bridge <bridge name>
+ docker run -itd  --name <container name> --network <network created > <image from hub>
+
+Port Publishing or forwarding on Docker:
+===========================
+ docker run -itd --name <container name> nginx
+ docker inspect <container name> -- > to get the IPAddress
+ curl ip:80 -- > get the o/p
+ docker run -itd --name <container name> -P nginx
+ docker run -itd --name <container name> -p 9999:80 nginx
+
+
+Docker file is a blueprint for building image 
+ Keywords:
+ FROM :  Talks about the base image 
+ ENV : Optional as environment variables are defined here .
+ RUN  - Execute any Linux command .Execution will happen inside the container .
+ COPY - Source can be local, and destination is inside container
+ CMD – Always part of docker file . Execute entry point Linux command .
+Multiple RUN commands can be there but only one CMD command .
+
+Docker Network :
+
+https://www.docker.com/blog/understanding-docker-networking-drivers-use-cases/
+https://docs.docker.com/network/
+
+docker network ls
+docker network --help
+docker network ls -f driver=bridge
+docker network ls --format "{{.ID}}: {{.Driver}}"
+docker network inspect "networkid"
+docker network create "networkname"
+docker network create -d bridge "networkname“
+docker network rm “networkname”
+docker network connect "networkname" "containername"
+docker container run -d --name "nameofcontainer" --network "networkname" image
+docker network disconnect "networkname" "containername“
+Docker exec –it nginx1 bash
+ apt-get update
+ apt-get install iputils-ping
+docker exec -it “nginx2" ping “nginx3"
+
+
+Install docker on amazon linux :
+-------------------------------
+yum install docker –y 
+
+Common commands:
+-------------------------
+  docker pull ubuntu 
+  docker images / docker image ls
+  docker run –it –d ubuntu -- > attached to a container it should be in running mode .
+  docker ps –a  /docker ps
+  docker run -d --name test-tomcat-server -p 8090:8080 tomcat:latest
+  docker exec –it <container_id> bash 
+  docker kill <container_id>
+  docker rm <container id>  -- > will remove the container but it should be stopped
+  docker rm  -f <container_id> -- > delete container forcefully 
+  docker rmi <image id> -- > to remove the image  
+  docker rm –f $(docker ps –a –q )
+  docker commit 
+  docker start <container id >
+  docker stop <contain ner id >
+  come out of atatched mode -- > ctrl +p .ctrl +q 
+
+root@df33de3dcefb:/usr/local/tomcat/webapps.dist# cp -R * ../webapps
+docker exec -it tomcat-vikas /bin/bash
+  
+Create a volume to preserve the data present in container :
+----------------------------------------------------------
+  docker volume ls -- > list
+  docker volume create vol1 -- > create a volume
+  docker volume inspect vol1 -- > see the location
+  docker run -it --name <any name> -v vol1:/data <container name>
+  docker volume rm vol1
+
+Bind Mount :
+-----------
+  docker run -it --name <any name> -v <bind mount location eg: /tmp/logs>:/data:Z Ubuntu   -- > this Z flag will enable read write in container .
+  docker run -it --name <any name> --volumes-from <existing container name > Ubuntu      
+
+
+Docker Installation on Ubuntu machine :
+--------------------------------------------
+    sudo apt-get update 
+    sudo apt-get install docker.io
+
+
+dockerfile :
+------------
+From ubuntu 
+Maintainer “Vikas”
+RUN apt-get update 
+RUN apt-get install vim –y 
+CMD /bin/echo “ I am from ubuntu container “
+
+To run this, say == > docker build –t myimage .
+
+
+
