@@ -1,0 +1,3 @@
+docker run -it --name python-app <>
+docker stop <>
+docker start -a -i <>
