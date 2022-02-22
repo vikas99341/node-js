@@ -1,3 +1,35 @@
+python2.7 
+
+yum install pip 
+pip install numpy
+python <code name>
+
+Python 3.7
+ 
+yum install pip3 
+pip3 install numpy 
+python3 <code name>
+
+Dockerfile -- > Images -- > Conatiner
+
+docker inspect <container-id>
+docker logs -f <container-id>
+docker exec -it <container-id> /bin/bash
+
+Dangling Image - Images who have no owner /orphan images
+docker system prune
+
+Remove a Image 
+===============
+docker rmi <Image_id>
+
+Remove a Container 
+==================
+docker rm -f <Container_id>
+
+docker ps -a == > show me all the container 
+
+===========================================
 docker run -it --name python-app <>
 docker stop <>
 docker start -a -i <>
