@@ -1,0 +1,13 @@
+docker network --help
+docker network ls
+docker network create mynetwork
+docker network create -d bridge mynetwork1
+docker network rm mynetwork1
+docker inspect mynetwork
+docker network connect mynetwork sample-nginx
+docker network disconnect mynetwork sample-nginx
+docker run -d --name nginx3 -p 82:80 --network mynetwork nginx:latest
+docker network ls -f driver=bridge
+docker network connect  mynetwork a4cfce8fc313
+Go inside the container and run : apt-get update -y ; apt-get install iputils-ping;exit ;
+docker exec -it nginx3 ping sample-nginx
