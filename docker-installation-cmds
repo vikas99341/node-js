@@ -1,0 +1,63 @@
+yum install docker -y
+docker --version
+service docker start
+service docker status
+systemctl enable docker
+
+========================================================
+image and conatainer reationship
+=======================================================
+running image is container
+
+match box + match stick + fire 
+docker registry + images + container 
+
+hub + standalone       === run/execute == > Container
+      read only filesystem 
+      stagnant
+      layers of files
+========================================================
+Coomon docker commands
+=======================================================
+
+docker pull nginx:stable
+docker run --name sample-nginx -d nginx:stable
+docker images
+docker ps -a 
+docker start <container-id>
+docker stop <container-id>
+
+docker rm -f <container-id>
+docker rmi <image-id>
+
+  docker run --name sample-nginx -d -p 8080:80 nginx:latest
+  
+  =============================================================
+  Create custom docker image
+  =============================================================
+  Dockerfile:
+  ==========
+  
+FROM ubuntu:18.04
+
+RUN apt-get -y update
+RUN apt-get install -y apache2
+COPY index.html /var/www/html/
+CMD ["/usr/sbin/httpd", "-D" , "FOREGROUND"]
+EXPOSE 80
+=================================================================
+docker build -t vikas244775/custom-ubuntu:v1 .
+docker tag vikas244775/custom-ubuntu:v1 vikas24775/custom-ubuntu:v1
+
+docker login
+docker push vikas24775/custom-ubuntu:v1
+
+docker run -it -d --name ubuntu-container -p 80:80 vikas24775/custom-ubuntu:v1
+docker system prune
+
+===============================================================================
+
+
+
+
+  
