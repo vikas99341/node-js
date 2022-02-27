@@ -8,3 +8,13 @@ docker volume inspect vol1
 docker volume ls
 docker volume prune
 docker volume create <name>
+
+Voulme :
+docker run -d --name devtest -v vol1:/app nginx:latest
+
+docker exec -it 6421f38ae032 /bin/bash
+
+docker run -d --name devtest --mount source=vol2,target=/app nginx:latest
+
+docker inspect <container-id>
+docker logs -f <container>
