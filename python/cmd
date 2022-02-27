@@ -5,7 +5,14 @@ pip install numpy
 python <code name>
 
 Python 3.7
- 
+
+#Download get-pip to current directory. It won't install anything, as of now
+curl -O https://bootstrap.pypa.io/get-pip.py
+
+#Use python3.6 to install pip
+python3 get-pip.py
+#this will install pip3 and pip3.6  
+
 yum install pip3 
 pip3 install numpy 
 python3 <code name>
