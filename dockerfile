@@ -64,3 +64,16 @@ example : docker logs -f <keyword>
 to start and stop the container
 example : docker start <container-id>
 example : docker stop <container-id>
+
+=================================================
+FROM nginx:latest
+
+RUN apt -y update
+RUN apt install -y git
+RUN apt install -y apache2
+
+COPY ./index.html /usr/share/nginx/html/index.html
+VOLUME /app
+
+CMD ["nginx", "-g", "daemon off;"] 
+======================================================
