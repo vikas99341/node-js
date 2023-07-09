@@ -4,7 +4,7 @@ docker service ls
 docker run -it -d -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock dockersamples/visualizer
 docker ps -a
 docker service create --name nginxweb -p 8081:80 nginx
-docker service create --name nginxweb1 -p 8082:80 --replicas 5 nginx
+docker service create --name nginxweb5 -p 8085:80 --replicas 5 nginx
 docker service ps nginxweb1
 docker service scale nginxweb1=7
 docker service scale nginxweb1=1
