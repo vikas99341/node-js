@@ -8,5 +8,5 @@ docker service ps nginxweb5
 docker service scale nginxweb5=7
 docker service scale nginxweb5=1
 docker node update --availability drain docker-server
-docker node update --availability active docker
+docker node update --availability active docker-server
 docker node ls
